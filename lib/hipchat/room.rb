@@ -154,15 +154,13 @@ module HipChat
         raise UsernameTooLong, "Username #{from} is `#{from.length} characters long. Limit is 15'"
       end
 
+      if message && message != ""
+        message_formatted = { :message => message }.send(@api.send_config[:body_format])
+      end
+
       response = self.class.post(@api.send_file_config[:url],
         :query => { :auth_token => @token },
-        :body  => file_body(
-          {
-            :room_id        => room_id,
-            :from           => from,
-            :message        => message,
-          }.send(@api.send_config[:body_format]), file
-        ),
+        :body  => file_body(message_formatted, file),
         :headers => file_body_headers(@api.headers)
       )
 
@@ -173,7 +171,7 @@ module HipChat
       when 401
         raise Unauthorized, "Access denied to room `#{room_id}'"
       else
-        raise UnknownResponseCode, "Unexpected #{response.code} for room `#{room_id}: #{response.inspect}'"
+        raise UnknownResponseCode, "Unexpected #{response.code} for room `#{room_id}: #{response.parsed_response["message"]}'"
       end
     end
 

@@ -228,7 +228,7 @@ describe "HipChat (API V2)" do
 
     it "but fails if we get an unknown response code" do
       mock(HipChat::Room).post(anything, anything) {
-        OpenStruct.new(:code => 403)
+        OpenStruct.new(:code => 403, :parsed_response => { :message => "error message" })
       }
 
       lambda { room.send_file "", "", file }.

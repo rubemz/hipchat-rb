@@ -20,7 +20,9 @@ module HipChat
       body << 'Content-Type: application/json; charset=UTF-8'
       body << 'Content-Disposition: attachment; name="metadata"'
       body << ''
-      body << message
+      if message
+        body << message
+      end
       body << "--#{BOUNDARY}"
       body << "Content-Type: #{mime_type}; charset=UTF-8"
       body << 'Content-Transfer-Encoding: base64'
