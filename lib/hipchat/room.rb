@@ -31,7 +31,7 @@ module HipChat
       when 401
         raise Unauthorized, "Access denied to room `#{room_id}'"
       else
-        raise UnknownResponseCode, "Unexpected #{response.code} for room `#{room_id}'"
+        raise UnknownResponseCode, "Unexpected #{response.code} for room `#{room_id}'. Response: #{response.inspect}"
       end
     end
 

@@ -37,7 +37,7 @@ module HipChat
       when 401
         raise Unauthorized, "Access denied to user `#{user_id}'"
       else
-        raise UnknownResponseCode, "Unexpected #{response.code} for private message to `#{user_id}'"
+        raise UnknownResponseCode, "Unexpected #{response.code} for private message to `#{user_id}'. Response: #{response.inspect}"
       end
     end
 
